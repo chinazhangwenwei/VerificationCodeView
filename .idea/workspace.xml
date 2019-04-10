@@ -39,6 +39,7 @@
     </entry>
   </component>
   <component name="PropertiesComponent">
+    <property name="add_unversioned_files" value="true" />
     <property name="android.project.structure.last.selected" value="SDK Location" />
     <property name="android.project.structure.proportion" value="0.15" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />

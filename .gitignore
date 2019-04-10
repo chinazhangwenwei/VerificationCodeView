@@ -1,0 +1,5 @@
+# Created by .ignore support plugin (hsz.mobi)
+.gradle/4.10.1/vcsMetadata-1/
+.idea/vcs.xml
+app/libs/
+libs/
