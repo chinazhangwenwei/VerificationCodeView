@@ -10,3 +10,5 @@ libs/
 /gradlew
 /gradlew.bat
 /VerificationCode.iml
+/.gradle/
+/VerificationCodeView.iml
