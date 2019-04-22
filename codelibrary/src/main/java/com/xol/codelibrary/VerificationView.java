@@ -1,9 +1,10 @@
 package com.xol.codelibrary;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
+import android.text.InputType;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -15,15 +16,13 @@ import java.util.List;
  */
 public class VerificationView extends LinearLayout implements CodeEditText.CodeListener {
     //验证码数量
-    private int codeNum = 4;
-    //验证码间距
-    private int contentMargin = 16;
-    //验证码字体大小
-    private int codeTextSize = 16;
-    //验证码style
-    private int styleResource = 0;
+    private int codeNum = 0;
     //验证码view集合便于后续操作
-    private List<EditText> editTextList;
+    private List<CodeEditText> editTextList;
+
+    public void setCodeSuccess(CodeSuccess codeSuccess) {
+        this.codeSuccess = codeSuccess;
+    }
 
     private CodeSuccess codeSuccess;
 
@@ -38,35 +37,40 @@ public class VerificationView extends LinearLayout implements CodeEditText.CodeL
 
     public VerificationView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initAttr(context, attrs);
+        init(context);
     }
 
-    private void initAttr(Context context, AttributeSet attrs) {
-        setOrientation(HORIZONTAL);
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.VerificationView);
-        codeNum = typedArray.getInt(R.styleable.VerificationView_code_num, codeNum);
-        contentMargin = typedArray.getDimensionPixelSize(R.styleable.VerificationView_code_margin, contentMargin);
-        codeTextSize = typedArray.getDimensionPixelSize(R.styleable.VerificationView_code_text_size, codeTextSize);
-        typedArray.recycle();
-        editTextList = new ArrayList<>(codeNum);
-        for (int i = 0; i < codeNum; i++) {
-            CodeEditText codeEditText = new CodeEditText(context);
-
-            codeEditText.setCodeListener(this);
-            //添加子view
-            addView(codeEditText);
-            editTextList.add(codeEditText);
-        }
-    }
-
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);
+    private void init(Context context) {
+//        CodeEditText codeEditText = new CodeEditText(context);
+//        codeEditText.setMaxEms(1);
+//        codeEditText.setMaxLines(1);
+//        codeEditText.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+//        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0,
+//                LayoutParams.WRAP_CONTENT);
+//        layoutParams.weight = 1;
+//        codeEditText.setGravity(Gravity.CENTER);
+//        addView(codeEditText, layoutParams);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+
+        if (editTextList == null) {
+            codeNum = getChildCount();
+            if (codeNum > 0) {
+                editTextList = new ArrayList<>(codeNum);
+                for (int i = 0; i < codeNum; i++) {
+                    editTextList.add((CodeEditText) getChildAt(i));
+                    editTextList.get(i).setCodeListener(this);
+                }
+            }
+        }
     }
 
     @Override
@@ -80,6 +84,7 @@ public class VerificationView extends LinearLayout implements CodeEditText.CodeL
         computerSuccess();
 
     }
+
 
     @Override
     public void onInputNumber(String code, EditText view) {

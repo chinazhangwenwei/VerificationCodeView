@@ -25,7 +25,7 @@ public class CodeEditText extends AppCompatEditText implements CodeInputConnecti
     }
 
     public CodeEditText(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
     }
 
     public CodeEditText(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -87,7 +87,7 @@ public class CodeEditText extends AppCompatEditText implements CodeInputConnecti
             if (number.length() > 1) {
                 codeListener.onCopy(number);
             } else {
-                codeListener.onInputNumber(number,this);
+                codeListener.onInputNumber(number, this);
             }
         }
 
